@@ -1,0 +1,14 @@
+library(Seurat)
+library(tidyverse)
+NCD<- Read10X(data.dir = "F:/GSE237143_RAW/NCD/")
+HFD<- Read10X(data.dir = "F:/GSE237143_RAW/HFD/")
+
+NCD<- CreateSeuratObject(counts = NCD, project = "NCD", min.cells = 3, min.features = 200)
+NCD<- PercentageFeatureSet(NCD, pattern = "^mt-", col.name = "percent.mt")
+HFD<- CreateSeuratObject(counts = HFD, project = "HFD", min.cells = 3, min.features = 200)
+HFD<- PercentageFeatureSet(HFD, pattern = "^mt-", col.name = "percent.mt")
+
+NCD <- subset(NCD, subset = nFeature_RNA > 500 & nFeature_RNA < 4000 & nCount_RNA < 20000 & percent.mt < 10)
+HFD<- subset(HFD, subset = nFeature_RNA > 500 & nFeature_RNA < 4000 & nCount_RNA < 20000 & percent.mt < 10)
+
+
