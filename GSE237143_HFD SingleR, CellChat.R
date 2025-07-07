@@ -83,4 +83,17 @@ for (i in 1:nrow(mat)) {
                    edge.weight.max = max(mat), title.name = rownames(mat)[i])
 }
 
-
+# Interaction between specific cell group
+mat <- cellchat@net$weight
+groupSize <- as.numeric(table(cellchat@idents))
+target.groups <- c("Fibroblasts", "Adipocytes", "Macrophages")
+target.indices <- which(rownames(mat) %in% target.groups)
+par(mfrow = c(1, length(target.indices)), xpd = TRUE)
+for (i in target.indices) {
+  mat2 <- matrix(0, nrow = nrow(mat), ncol = ncol(mat), dimnames = dimnames(mat))
+  mat2[i, ] <- mat[i, ]
+  
+  netVisual_circle(mat2, 
+                   vertex.weight = groupSize, 
+                   weight.scale = FALSE, 
+                   edge.weight.max = max(mat),)}
